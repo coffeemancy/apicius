@@ -1,11 +1,7 @@
 (ns apicius.handler
-  (:require [compojure.core :refer [defroutes routes]]
-            [ring.middleware.resource :refer [wrap-resource]]
-            [ring.middleware.file-info :refer [wrap-file-info]]
-            [hiccup.middleware :refer [wrap-base-url]]
+  (:require [ring.middleware.json :as middleware]
             [compojure.handler :as handler]
-            [compojure.route :as route]
-            [apicius.routes.home :refer [home-routes]]))
+            [apicius.routes.cookbookapi :refer [cookbookapi-routes]]))
 
 (defn init []
   (println "apicius is starting"))
@@ -13,13 +9,7 @@
 (defn destroy []
   (println "apicius is shutting down"))
 
-(defroutes app-routes
-  (route/resources "/")
-  (route/not-found "Not Found"))
-
 (def app
-  (-> (routes home-routes app-routes)
-      (handler/site)
-      (wrap-base-url)))
-
-
+  (-> (handler/api cookbookapi-routes)
+      (middleware/wrap-json-body)
+      (middleware/wrap-json-response)))

@@ -7,7 +7,8 @@
                  [compojure "1.1.6"]
                  [ring-server "0.3.1"]
                  [ring/ring-json "0.2.0"]
-                 [cheshire "5.3.0"]]
+                 [cheshire "5.3.0"]
+                 [korma "0.3.0-RC6"]]
   :plugins [[lein-ring "0.8.7"]]
   :ring {:handler apicius.handler/app
          :init apicius.handler/init

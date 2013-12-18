@@ -8,7 +8,7 @@
   ["foo" "bar"])
 
 (defn num-semvar [semvar]
-  ;; Converts semvar to number
+  "Converts semvar to a number"
   (let [parts (mapv read-string (string/split semvar #"\." 3))]
     (+ (* 100 (parts 0)) (* 10 (parts 1)) (parts 2))))
 
@@ -30,7 +30,7 @@
      :tarball_file_size nil
      :version (if (= version :latest)
                     ;; latest version
-                    (max num-semvar (list-versions cookbook))
+                    (apply max-key num-semvar (list-versions cookbook))
                     version)
      :average_rating nil
      :cookbook (str "https://apicius.dyndns.com/cookbooks/" cookbook)

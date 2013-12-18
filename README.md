@@ -16,4 +16,6 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2013 FIXME
+Copylove ♡ 2013 Carlton Stedman
+Copying is an act of love. Love is not subject to law. Please copy and share.
+http://copyheart.org/

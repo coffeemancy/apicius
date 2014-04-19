@@ -1,8 +1,12 @@
 (ns apicius.models.cookbook
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as string])
+  (:require [apicius.modesl.db :as db]))
+
+(defn latest-version [cookbook]
+  (apply max-key num-semvar (list-versions cookbook)))
 
 (defn list-versions [cookbook]
-  ["0.0.1" "0.1.0" "1.0.0"])
+  (db/lookup-versions cookbook))
 
 (defn list-all []
   ["foo" "bar"])
@@ -14,28 +18,30 @@
 
 (defn fetch
   ([cookbook]
+    (let [v (latest-version cookbook)
+          ])
     {:name cookbook
      :category "COOKBOOK_MAINTAINER"
-     :updated_at "2009-09-26T00:51:36Z"
+     :updated_at "2009-09-26T00:51:36Z" ; search for this
      :maintainer "COOKBOOK_MAINTAINER"
-     :latest_version "?"
+     :latest_version (latest-version cookbook)
      :external_url nil
      :versions (list-versions cookbook)
      :description "COOKBOOK_DESCRIPTION"
      :average_rating nil
-     :created_at "2009-09-26T00:51:36Z"})
+     :created_at "2009-09-26T00:51:36Z"}) ; search for this
   ([cookbook version]
-    {:license "Restricted"
-     :updated_at "2009-09-26T00:51:36Z"
-     :tarball_file_size nil
-     :version (if (= version :latest)
-                    ;; latest version
-                    (apply max-key num-semvar (list-versions cookbook))
+    (let [cb (db/lookup cookbook version)]
+      {:license (:license cb)
+       :updated_at (:updated_at cb)
+       :tarball_file_size (:tarball_file_size cb)
+       :version (if (= version :latest)
+                    (latest-cookbook cookbook)
                     version)
-     :average_rating nil
-     :cookbook (str "https://apicius.dyndns.com/cookbooks/" cookbook)
-     :created_at "2009-09-26T00:51:36Z"
-     :file (str "files/" cookbook "-" version ".tgz")}))
+       :average_rating (:average_rating cb)
+       :cookbook (str "https://apicius.dyndns.com/cookbooks/" cookbook)
+       :created_at (:created_at cb)
+       :file (:file cb)})))
 
 (defn fetch-file [cookbook version]
   {:get "cookbook-file"

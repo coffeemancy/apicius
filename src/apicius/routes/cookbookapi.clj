@@ -25,18 +25,18 @@
   (response (cookbook/create cookbook)))
 
 (defroutes cookbookapi-routes
-  (context "/cookbooks" [] (defroutes cookbooks-routes
+  (context "/cookbooks" [] (routes
     (GET "/" [] (get-slash))
     (GET "/all" [] (get-all))
-    (context "/:cookbook" [cookbook] (defroutes cookbook-routes
+    (context "/:cookbook" [cookbook] (routes
       (GET  "/" [] (get-cookbook cookbook))
       (POST "/" [] (post-cookbook cookbook))
-      (context "/versions" [] (defroutes versions-routes
+      (context "/versions" [] (routes
         ; (GET "/" [] (get-cookbook cookbook))
         (GET "/latest" [] (get-cookbook cookbook :latest))
         (GET "/:version" [version] (get-cookbook cookbook version))))))
-    (context "/files" [] (defroutes files-routes
-      (context "/:cookbook" [cookbook] (defroutes files-cookbook-routes
+    (context "/files" [] (routes
+      (context "/:cookbook" [cookbook] (routes
         ; (GET "/" [] (get-cookbook-file cookbook))
         (GET "/:version" [version] (get-cookbook-file cookbook version))))))))
     ; (GET "/search" [] )

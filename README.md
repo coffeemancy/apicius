@@ -16,6 +16,6 @@ To start a web server for the application, run:
 
 ## License
 
-Copylove ♡ 2013 Carlton Stedman
+Copylove ♡ 2013
 Copying is an act of love. Love is not subject to law. Please copy and share.
 http://copyheart.org/
